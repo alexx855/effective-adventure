@@ -1,3 +1,5 @@
+export TAILWIND_MODE="watch" 
+
 
 
 # Whitehoneypot
