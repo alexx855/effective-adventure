@@ -5,6 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
+    "export": "nx export",
+    "deploy": "npm run build && npm run export && firebase deploy --only hosting",
     "test": "nx test"
   },
   "private": true,
