@@ -13,14 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set Release version
-        run: echo "NEXT_PUBLIC_RELEASE_VERSION=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")"  >> $GITHUB_ENV
+        run: echo "NEXT_PUBLIC_RELEASE_VERSION=${GITHUB_REF} >> $GITHUB_ENV
+        # run: echo "NEXT_PUBLIC_RELEASE_VERSION=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")"  >> $GITHUB_ENV
 
       - name: Checkout source
         uses: actions/checkout@v2
         
       - name: Build
-        env:
-          NEXT_PUBLIC_RELEASE_VERSION: ${{ env.NEXT_PUBLIC_RELEASE_VERSION }}
+        # env:
+        #   NEXT_PUBLIC_RELEASE_VERSION: ${{ env.NEXT_PUBLIC_RELEASE_VERSION }}
         run: npm ci && npm run build
 
       - name: Deploy to Firebase Hosting

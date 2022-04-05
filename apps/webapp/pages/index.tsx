@@ -1,6 +1,6 @@
 import Link from 'next/link';
-// import Image from 'next/image';
-
+import Image from 'next/image';
+import React from 'react';
 import beeUrl, { ReactComponent as Bee } from '../public/bee/SVG/full.svg';
 import honeypotUrl, {
   ReactComponent as Honeypot,
@@ -29,15 +29,8 @@ export function Index() {
       <div id="hero" className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            {/* <Image
-              className="inline"
-              alt="honeypot"
-              src="/bee/1x/full.png"
-              height={40}
-              width={40}
-            /> */}
             <img src={beeUrl} alt="bee" />
-            <Bee />
+            {/* <Bee /> */}
 
             <span className="inline pl-2">BEE supportive</span>
             {/* <span className="block text-indigo-600">helping real people in real time</span> */}
@@ -63,14 +56,8 @@ export function Index() {
 
       <div className="h-48 w-full absolute inset-x-0 bottom-0 z-1 overflow-hidden">
         <div className="top-20 relative m-auto w-48 h-full">
-          <Honeypot />
+          {/* <Honeypot /> */}
           <img src={honeypotUrl} alt="honeypot" />
-          {/* <Image
-            alt="honeypot"
-            src="/pot/1x/full.png"
-            height={80}
-            width={80}
-          /> */}
         </div>
       </div>
     </div>
