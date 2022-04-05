@@ -6,6 +6,7 @@ import Link from 'next/link';
 export interface HiveProps {}
 
 export function Hive(props: HiveProps) {
+
   return (
     <>
       <div className="bg-gray-50">
