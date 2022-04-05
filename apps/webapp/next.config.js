@@ -7,10 +7,13 @@ const withNx = require('@nrwl/next/plugins/with-nx');
 const nextConfig = {
   trailingSlash: true,
   useFileSystemPublicRoutes: true,
+  images: {
+    domains: ['effective-adventure.alexpedersen.dev', 'effective-adventure.alexx855.eth.link'],
+  },
   nx: {
     // Set this to true if you would like to to use SVGR
     // See: https://github.com/gregberge/svgr
-    svgr: false,
+    svgr: true,
   },
 };
 
