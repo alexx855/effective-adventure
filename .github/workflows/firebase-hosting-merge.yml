@@ -6,25 +6,21 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - main
+env:
+  NEXT_PUBLIC_ANALYTICS_ID: 'UA-130018-1'
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Get Branch
-        id: branch
-        run: echo "git_branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_BRANCH
-      - name: Check Branch
-        run: echo "${{ env.branch }}"
-      - name: Get Hash
-        id: hash
-        run: echo "git_hash=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_HASH
-      - name: Check Hash
-        run: echo "${{ env.hash }}"
+      - name: Set Release version
+        run: echo "NEXT_PUBLIC_RELEASE_VERSION=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")"  >> $GITHUB_ENV
+      - name: Checkout source
       - uses: actions/checkout@v2
+        env:
+          NEXT_PUBLIC_RELEASE_VERSION: ${{ env.NEXT_PUBLIC_RELEASE_VERSION }}
       - run: npm ci && npm run build
+      - name: Deploy to Firebase Hosting
       - uses: FirebaseExtended/action-hosting-deploy@v0
-      env:
-        NEXT_PUBLIC_ANALYTICS_ID: '${{ secrets.NEXT_PUBLIC_ANALYTICS_ID }}'
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EFFECTIVE_ADVENTURE }}'
