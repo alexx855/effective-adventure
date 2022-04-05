@@ -18,16 +18,30 @@ jobs:
 
       - name: Checkout source
         uses: actions/checkout@v2
-        
+
       - name: Build
         # env:
         #   NEXT_PUBLIC_RELEASE_VERSION: ${{ env.NEXT_PUBLIC_RELEASE_VERSION }}
         run: npm ci && npm run build
 
-      - name: Deploy to Firebase Hosting
+      - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EFFECTIVE_ADVENTURE }}'
           channelId: live
           projectId: effective-adventure
+
+      - name: Deploy to IPFS
+        uses: aquiladev/ipfs-action@v1
+        with:
+          path: ./dist/apps/webapp/exported
+          service: pinata
+          pinataKey: ${{ secrets.PINATA_KEY }}
+          pinataSecret: ${{ secrets.PINATA_SECRET }}
+
+      # "bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am"
+      - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
+
+      # https://bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am.ipfs.dweb.link
+      - run: echo ${{ steps.ipfs.outputs.url }}
