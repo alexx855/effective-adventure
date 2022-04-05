@@ -19,9 +19,9 @@ jobs:
 
       - run: echo ${{ steps.get_version.outputs.version-without-v }}
 
-      - name: Set Release version
-        run: echo "NEXT_PUBLIC_RELEASE_VERSION=${GITHUB_REF} >> $GITHUB_ENV
-        # run: echo "NEXT_PUBLIC_RELEASE_VERSION=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")"  >> $GITHUB_ENV
+      # - name: Set Release version
+      #   run: echo "NEXT_PUBLIC_RELEASE_VERSION=${GITHUB_REF} >> $GITHUB_ENV
+      #   # run: echo "NEXT_PUBLIC_RELEASE_VERSION=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")"  >> $GITHUB_ENV
 
       - name: Checkout source
         uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
           service: pinata
           pinataKey: ${{ secrets.PINATA_KEY }}
           pinataSecret: ${{ secrets.PINATA_SECRET }}
-          pinataPinName: effective-adventure-webapp-${{ env.NEXT_PUBLIC_RELEASE_VERSION }}
+          pinataPinName: effective-adventure-webapp-${{ steps.get_version.outputs.version }}
 
       # "bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am"
       - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
