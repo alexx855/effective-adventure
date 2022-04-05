@@ -16,9 +16,6 @@ jobs:
         run: echo "NEXT_PUBLIC_RELEASE_VERSION=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")"  >> $GITHUB_ENV
       - name: Checkout source
         uses: actions/checkout@v2
-      - name: Build
-        env:
-          NEXT_PUBLIC_RELEASE_VERSION: ${{ env.NEXT_PUBLIC_RELEASE_VERSION }}
         run: npm ci && npm run build
       - name: Deploy to Firebase Hosting
       - uses: FirebaseExtended/action-hosting-deploy@v0
