@@ -12,6 +12,13 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      - id: get_version
+        uses: battila7/get-version-action@v2
+
+      - run: echo ${{ steps.get_version.outputs.version }}
+
+      - run: echo ${{ steps.get_version.outputs.version-without-v }}
+
       - name: Set Release version
         run: echo "NEXT_PUBLIC_RELEASE_VERSION=${GITHUB_REF} >> $GITHUB_ENV
         # run: echo "NEXT_PUBLIC_RELEASE_VERSION=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")"  >> $GITHUB_ENV
@@ -33,12 +40,13 @@ jobs:
           projectId: effective-adventure
 
       - name: Deploy to IPFS
-        uses: aquiladev/ipfs-action@v1
+        uses: aquiladev/ipfs-action@v0.2.1
         with:
           path: ./dist/apps/webapp/exported
           service: pinata
           pinataKey: ${{ secrets.PINATA_KEY }}
           pinataSecret: ${{ secrets.PINATA_SECRET }}
+          pinataPinName: effective-adventure-webapp-${{ env.NEXT_PUBLIC_RELEASE_VERSION }}
 
       # "bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am"
       - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
