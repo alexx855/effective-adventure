@@ -17,18 +17,16 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <div className="absolute bottom-0 right-0 z-99 pb-2 pr-2">
         <p id="release-info" className="text-right">
           {process.env.NEXT_PUBLIC_VERSION || 'development'}{' '}
-          {process.env.NEXT_PUBLIC_IPFS_CID && (
-            <Link href="https://ipfs-effective-adventure.alexpedersen.dev/">
-              <a
-                id="ipfs-cid"
-                className="text-right"
-                target="_blank"
-                rel="noreferrer"
-              >
-                IPFS CID {process.env.NEXT_PUBLIC_IPFS_CID}
-              </a>
-            </Link>
-          )}
+          <Link href="https://ipfs-effective-adventure.alexpedersen.dev/">
+            <a
+              id="ipfs-cid"
+              className="text-right"
+              target="_blank"
+              rel="noreferrer"
+            >
+              IPFS version
+            </a>
+          </Link>
         </p>
       </div>
     </>
