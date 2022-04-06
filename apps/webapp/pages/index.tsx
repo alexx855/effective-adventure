@@ -32,7 +32,7 @@ export function Index() {
             <img src={beeUrl} alt="bee" />
             {/* <Bee /> */}
 
-            <span className="inline pl-2">BEE supportive</span>
+            <span className="inline pl-2">BEE supportivee</span>
             {/* <span className="block text-indigo-600">helping real people in real time</span> */}
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">

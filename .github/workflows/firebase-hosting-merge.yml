@@ -12,14 +12,26 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+        
+      - name: Declare some variables
+        id: vars
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Another step
+        run: |
+          echo "Branch: ${{ steps.vars.outputs.branch }}"
+          echo "Sha: ${{ steps.vars.outputs.sha_short }}"
+
       - name: Get version
         id: get_version
         uses: battila7/get-version-action@v2
       - run: echo ${{ steps.get_version.outputs.version }}
-      # - run: echo ${{ steps.get_version.outputs.version-without-v }}
-
-      - name: Checkout source
-        uses: actions/checkout@v2
+      - run: echo ${{ steps.get_version.outputs.version-without-v }}
 
       - name: Build
         run: npm ci && npm run build
@@ -33,37 +45,20 @@ jobs:
           service: pinata
           pinataKey: ${{ secrets.PINATA_KEY }}
           pinataSecret: ${{ secrets.PINATA_SECRET }}
-          pinataPinName: effective-adventure-webapp-${{ steps.get_version.outputs.version }}
+          pinataPinName: effective-adventure-${{ steps.get_version.outputs.version-without-v }}
+      - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
+      - run: echo ${{ steps.ipfs.outputs.url }}
 
-      # "bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am"
-      # TODO: SAVE TO ENV
-      # - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
-
-      # TODO: SAVE TO ENV
-      # https://bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am.ipfs.dweb.link
-      # - run: echo ${{ steps.ipfs.outputs.url }}
-
-      # git_branch=`git symbolic-ref --short HEAD`
-      # git_hash=`git rev-parse --short HEAD`
-
-      # TODO: add if
       - name: Update DNSLink
         id: dnslink
         uses: textileio/cloudflare-update-dnslink@master
         env:
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           RECORD_DOMAIN: 'alexpedersen.dev'
           RECORD_NAME: '_dnslink.ipfs-effective-adventure'
-          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         with:
           cid: ${{ steps.ipfs.outputs.cid }}
-
-      # - name: Build with cid
-      #   env:
-      #     NEXT_PUBLIC_VERSION: ${{ env.NEXT_PUBLIC_VERSION }}
-      #     NEXT_PUBLIC_IPFS_CID: ${{ steps.ipfs.outputs.cid }}
-      #   run: npm run build
-      # run: npm ci && npm run build
 
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
