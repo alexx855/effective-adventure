@@ -27,11 +27,6 @@ jobs:
       - name: Get version
         id: get_version
         uses: battila7/get-version-action@v2
-        run: |
-          echo "Branch: ${{ steps.vars.outputs.branch }}"
-          echo "Sha: ${{ steps.vars.outputs.sha_short }}"
-          echo ${{ steps.get_version.outputs.version }}
-          echo ${{ steps.get_version.outputs.version-without-v }}
 
       - name: Build
         run: npm ci && npm run build
@@ -47,9 +42,6 @@ jobs:
           pinataKey: ${{ secrets.PINATA_KEY }}
           pinataSecret: ${{ secrets.PINATA_SECRET }}
           pinataPinName: effective-adventure-${{ steps.get_version.outputs.version-without-v }}
-        run:  |
-          echo /ipfs/${{ steps.ipfs.outputs.cid }}
-          echo ${{ steps.ipfs.outputs.url }}
 
       - name: Update DNSLink
         id: dnslink
@@ -69,3 +61,12 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EFFECTIVE_ADVENTURE }}'
           channelId: live
           projectId: effective-adventure
+
+      - name: Debug info
+        run: |
+          echo "Branch: ${{ steps.vars.outputs.branch }}"
+          echo "Sha: ${{ steps.vars.outputs.sha_short }}"
+          echo ${{ steps.get_version.outputs.version }}
+          echo ${{ steps.get_version.outputs.version-without-v }}
+          echo /ipfs/${{ steps.ipfs.outputs.cid }}
+          echo ${{ steps.ipfs.outputs.url }}
