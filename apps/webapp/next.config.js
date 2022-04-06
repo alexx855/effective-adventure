@@ -5,11 +5,19 @@ const withNx = require('@nrwl/next/plugins/with-nx');
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
+  reactStrictMode: true,
   trailingSlash: true,
   useFileSystemPublicRoutes: true,
-  assetPrefix: './',
+  assetPrefix: '/',
+  exportPathMap: function() {
+    return {
+      '/': { page: '/' },
+      '/about': { page: '/about' },
+      '/hive': { page: '/hive' }
+    }
+  },
   images: {
-    domains: ['effective-adventure.alexpedersen.dev', 'effective-adventure.alexx855.eth.link'],
+    domains: ['effective-adventure.alexpedersen.dev', 'ipfs-effective-adventure.alexpedersen.dev'],
   },
   nx: {
     // Set this to true if you would like to to use SVGR
