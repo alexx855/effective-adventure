@@ -3,9 +3,9 @@
 
 name: Deploy to Firebase Hosting on merge
 'on':
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   release:
     types: [created]
 # env:
