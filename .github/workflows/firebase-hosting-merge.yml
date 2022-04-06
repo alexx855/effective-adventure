@@ -68,5 +68,5 @@ jobs:
           echo "Sha: ${{ steps.vars.outputs.sha_short }}"
           echo ${{ steps.get_version.outputs.version }}
           echo ${{ steps.get_version.outputs.version-without-v }}
-          echo /ipfs/${{ steps.ipfs.outputs.cid }}
+          echo "/ipfs/${{ steps.ipfs.outputs.cid }}"
           echo ${{ steps.ipfs.outputs.url }}
