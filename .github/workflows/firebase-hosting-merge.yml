@@ -13,18 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get version
-      - id: get_version
+        id: get_version
         uses: battila7/get-version-action@v2
       - run: echo ${{ steps.get_version.outputs.version }}
-      - run: echo ${{ steps.get_version.outputs.version-without-v }}
+      # - run: echo ${{ steps.get_version.outputs.version-without-v }}
 
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Build to IPFS
+      - name: Build
+        run: npm ci && npm run build
         env:
           NEXT_PUBLIC_VERSION: ${{ steps.get_version.outputs.version }}
-        run: npm ci && npm run build
 
       - name: Deploy to IPFS
         uses: aquiladev/ipfs-action@v0.2.1
@@ -37,33 +37,33 @@ jobs:
 
       # "bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am"
       # TODO: SAVE TO ENV
-      - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
+      # - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
 
       # TODO: SAVE TO ENV
       # https://bafkreicysg23kiwv34eg2d7qweipxwosdo2py4ldv42nbauguluen5v6am.ipfs.dweb.link
-      - run: echo ${{ steps.ipfs.outputs.url }}
+      # - run: echo ${{ steps.ipfs.outputs.url }}
 
       # git_branch=`git symbolic-ref --short HEAD`
       # git_hash=`git rev-parse --short HEAD`
 
       # TODO: add if
       - name: Update DNSLink
-        env:
-          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-          RECORD_DOMAIN: "alexpedersen.dev"
-          RECORD_NAME: "_dnslink.ipfs-effective-adventure"
-          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         id: dnslink
         uses: textileio/cloudflare-update-dnslink@master
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          RECORD_DOMAIN: 'alexpedersen.dev'
+          RECORD_NAME: '_dnslink.ipfs-effective-adventure'
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         with:
           cid: ${{ steps.ipfs.outputs.cid }}
 
-      - name: Build to Firebase
-        env:
-          NEXT_PUBLIC_VERSION: ${{ env.NEXT_PUBLIC_VERSION }}
-          NEXT_PUBLIC_IPFS_CID: ${{ steps.ipfs.outputs.cid }}
-        run: npm run build
-        # run: npm ci && npm run build
+      # - name: Build with cid
+      #   env:
+      #     NEXT_PUBLIC_VERSION: ${{ env.NEXT_PUBLIC_VERSION }}
+      #     NEXT_PUBLIC_IPFS_CID: ${{ steps.ipfs.outputs.cid }}
+      #   run: npm run build
+      # run: npm ci && npm run build
 
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0

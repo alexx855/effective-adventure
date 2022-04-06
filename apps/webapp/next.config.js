@@ -7,6 +7,7 @@ const withNx = require('@nrwl/next/plugins/with-nx');
 const nextConfig = {
   trailingSlash: true,
   useFileSystemPublicRoutes: true,
+  assetPrefix: './',
   images: {
     domains: ['effective-adventure.alexpedersen.dev', 'effective-adventure.alexx855.eth.link'],
   },
