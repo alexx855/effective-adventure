@@ -1,10 +1,10 @@
-import { AppProps } from 'next/app';
+// import { AppProps } from 'next/app';
+// import Link from 'next/link';
 import Head from 'next/head';
-import Link from 'next/link';
 
 import './styles.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({ Component, pageProps }) {
   return (
     <>
       <Head>

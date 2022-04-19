@@ -2,7 +2,6 @@
   "version": 2,
   "projects": {
     "hardhat": "apps/hardhat",
-    "hardhat-e2e": "apps/hardhat-e2e",
     "webapp": "apps/webapp",
     "webapp-e2e": "apps/webapp-e2e"
   }

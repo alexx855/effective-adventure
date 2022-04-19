@@ -1,51 +1,82 @@
 {
-  "projectType": "application",
   "root": "apps/hardhat",
   "sourceRoot": "apps/hardhat/src",
-  "tags": [],
+  "projectType": "application",
   "targets": {
-    "build": {
-      "executor": "@nrwl/web:webpack",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+    "start": {
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "outputPath": "dist/apps/hardhat",
-        "compiler": "babel",
-        "index": "apps/hardhat/src/index.html",
-        "baseHref": "/",
-        "main": "apps/hardhat/src/main.ts",
-        "polyfills": "apps/hardhat/src/polyfills.ts",
-        "tsConfig": "apps/hardhat/tsconfig.app.json",
-        "assets": ["apps/hardhat/src/favicon.ico", "apps/hardhat/src/assets"],
-        "styles": ["apps/hardhat/src/styles.css"],
-        "scripts": []
-      },
-      "configurations": {
-        "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/hardhat/src/environments/environment.ts",
-              "with": "apps/hardhat/src/environments/environment.prod.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "namedChunks": false,
-          "extractLicenses": true,
-          "vendorChunk": false
-        }
+        "commands": [
+          {
+            "command": "hardhat run ./apps/hardhat/scripts/deploy.ts"
+          }
+        ]
+      }
+    },
+    "chain": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "hardhat node --network hardhat --show-stack-traces"
+          }
+        ]
+      }
+    },
+    "accounts": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "hardhat accounts"
+          }
+        ]
+      }
+    },
+    "coverage": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "hardhat coverage"
+          }
+        ]
+      }
+    },
+    "clean": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "hardhat clean"
+          }
+        ]
+      }
+    },
+    "compile": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "hardhat compile"
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "hardhat test --show-stack-traces"
+          }
+        ]
       }
     },
     "serve": {
-      "executor": "@nrwl/web:dev-server",
+      "executor": "@nrwl/node:node",
       "options": {
         "buildTarget": "hardhat:build"
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "hardhat:build:production"
-        }
       }
     },
     "lint": {
@@ -54,14 +85,7 @@
       "options": {
         "lintFilePatterns": ["apps/hardhat/**/*.ts"]
       }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/hardhat"],
-      "options": {
-        "jestConfig": "apps/hardhat/jest.config.js",
-        "passWithNoTests": true
-      }
     }
-  }
+  },
+  "tags": []
 }
