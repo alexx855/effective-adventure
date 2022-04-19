@@ -3,7 +3,7 @@
   "sourceRoot": "apps/hardhat/src",
   "projectType": "application",
   "targets": {
-    "start": {
+    "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
@@ -18,7 +18,7 @@
       "options": {
         "commands": [
           {
-            "command": "hardhat node --network hardhat --show-stack-traces"
+            "command": "hardhat node --network hardhat"
           }
         ]
       }
@@ -68,17 +68,23 @@
       "options": {
         "commands": [
           {
-            "command": "hardhat test --show-stack-traces"
+            "command": "hardhat test"
           }
         ]
       }
     },
-    "serve": {
-      "executor": "@nrwl/node:node",
+    "solhint": {
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "buildTarget": "hardhat:build"
+        "commands": [
+          {
+            "command": "solhint './apps/hardhat/contracts/**/*.sol' --fix"
+          }
+        ]
       }
+      
     },
+
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
