@@ -10,6 +10,7 @@
     "chain": "nx chain hardhat",
     "coverage": "nx coverage hardhat",
     "deploy": "nx deploy hardhat",
+    "solhint": "solhint 'apps/hardhat/contracts/**/*.sol' --fix",
     "start:webapp": "nx serve webapp",
     "build:webapp": "nx build webapp && nx export webapp",
     "deploy:webapp": "npm run build && firebase deploy --only hosting",
