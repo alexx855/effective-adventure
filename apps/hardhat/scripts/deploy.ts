@@ -49,6 +49,17 @@ async function main() {
     await token.deployed();
 
     console.log('Token deployed to:', token.address);
+
+    // TODO: Deploy the DAO contract
+    // const cryptoDevsDaoAddress = await deployCryptoDevsDAO(
+    //     cryptoDevsNftAddress,
+    //     fakeNftMarketplaceAddress
+    // );
+
+    // console.log(
+    //     `Deployed CryptoDevsDAO contract at address: ${cryptoDevsDaoAddress}`
+    // );
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
