@@ -1,5 +1,8 @@
 import Head from 'next/head';
 import { Layout } from '@whitehoneypot/ui';
+// import { initializeApp } from "firebase/app";
+// import { getMessaging } from "firebase/messaging";
+
 
 import './styles.css';
 

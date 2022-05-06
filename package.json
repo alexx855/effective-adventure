@@ -12,16 +12,17 @@
     "coverage": "nx coverage hardhat",
     "deploy": "nx deploy hardhat",
     "solhint": "solhint 'apps/hardhat/contracts/**/*.sol' --fix",
-    "start:webapp": "nx serve webapp",
+    "start": "nx serve webapp",
     "build": "nx build webapp && nx export webapp",
     "deploy:webapp": "npm run build && firebase deploy --only hosting",
     "unit": "nx test webapp",
     "e2e": "nx e2e webapp-e2e",
-    "e2e:affected": "nx affected:e2e",
-    "e2e:affected:headless": "nx affected:e2e"
+    "e2e:affected": "nx affected:e2e"
   },
   "private": true,
   "dependencies": {
+    "@firebase/app": "^0.7.22",
+    "@firebase/auth": "^0.19.12",
     "@inlet/react-pixi": "^6.7.0",
     "@nrwl/next": "13.9.6",
     "@tailwindcss/typography": "^0.5.2",

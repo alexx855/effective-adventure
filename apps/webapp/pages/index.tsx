@@ -2,11 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 import beeUrl, { ReactComponent as Bee } from '../public/bee/SVG/full.svg';
-import honeypotUrl, {
-    ReactComponent as Honeypot,
-} from '../public/pot/SVG/full.svg';
 // import Bee from '../public/bee/SVG/full.svg';
-// import Honeypot from '../public/pot/SVG/full.svg';
 
 // import confetti from 'https://cdn.skypack.dev/canvas-confetti'
 // import { useEffect } from 'react'
@@ -16,66 +12,65 @@ export function Index() {
     //   confetti()
     // })
 
-    // console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID);
-    // console.log(process.env.RELEASE_VERSION);
+    // const items = ['a', 'b', 'c'];
 
-    const items = ['a', 'b', 'c'];
-    
     return (
         <div className="h-screen w-screen overflow-hidden">
-            <div id="hero" className="bg-gray-50">
+
+            <header className="bg-gray-50 w-full">
                 <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        <img src={beeUrl} alt="bee" />
+                    <h2 className="flex text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        <img className="w-10" src={beeUrl} alt="bee" />
                         {/* <Bee /> */}
 
-                        <span className="inline pl-2">BEE supportivee</span>
-                        {/* <span className="block text-indigo-600">helping real people in real time</span> */}
+                        <span className="pl-2">BEE positivee</span>
+                        {/* <span className="block text-orange-600">helping real people in real time</span> */}
                     </h2>
                     <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                         <div className="inline-flex rounded-md shadow">
                             <Link href="/hive/">
-                                <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
                                     Hive
                                 </a>
                             </Link>
                         </div>
                         <div className="ml-3 inline-flex rounded-md shadow">
-                            <Link href="/arena/react">
-                                <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
-                                    Arena React
+                            <Link href="/arena/">
+                                <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-orange-600 bg-white hover:bg-orange-50">
+                                    Arena
                                 </a>
                             </Link>
                         </div>
-                        <div className="ml-3 inline-flex rounded-md shadow">
-                            <Link href="/arena/web">
-                                <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
-                                    Arena Web
-                                </a>
-                            </Link>
-                        </div>
+
                         <div className="ml-3 inline-flex rounded-md shadow">
                             <Link href="/about/">
-                                <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
+                                <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-orange-600 bg-white hover:bg-orange-50">
                                     About
                                 </a>
                             </Link>
                         </div>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            <div className="">
-                <h1>Welcome webapp</h1>
-                {/* <Honeypot /> */}
-                {/* <img src={honeypotUrl} alt="honeypot" /> */}
-                <Link href="/about/">
-                    <a className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
-                        Mint
-                    </a>
-                </Link>
 
-                <ul>
+            <section className="w-full h-full flex flex-center justify-center items-center relative bg-gray-400">
+                {/* TODO: add pixi emmiter bg here */}
+
+                {/* TODO: rm, from test too */}
+                <span className='hidden'>
+                    <h1>Welcome webapp</h1>
+                </span>
+                
+                <button
+                    onClick={(e) => console.log('TODO')}
+                    className="block px-10 py-6 border border-transparent text-base font-large rounded-md  text-white  bg-orange-600 hover:bg-orange-700"
+                >
+                    Mint
+                </button>
+
+                {/* TODO: list */}
+                {/* <ul>
                     {items.map((item, index) => (
                         <li id={'item-' + index} key={'item-' + index}>
                             <Link href={`/item/${encodeURIComponent(item)}`}>
@@ -83,8 +78,8 @@ export function Index() {
                             </Link>
                         </li>
                     ))}
-                </ul>
-            </div>
+                </ul> */}
+            </section>
         </div>
     );
 }
