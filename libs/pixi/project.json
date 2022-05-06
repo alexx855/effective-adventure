@@ -1,0 +1,23 @@
+{
+    "root": "libs/pixi",
+    "sourceRoot": "libs/pixi/src",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/pixi/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/pixi"],
+            "options": {
+                "jestConfig": "libs/pixi/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    }
+}

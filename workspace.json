@@ -1,8 +1,10 @@
 {
-  "version": 2,
-  "projects": {
-    "hardhat": "apps/hardhat",
-    "webapp": "apps/webapp",
-    "webapp-e2e": "apps/webapp-e2e"
-  }
+    "version": 2,
+    "projects": {
+        "hardhat": "apps/hardhat",
+        "pixi": "libs/pixi",
+        "ui": "libs/ui",
+        "webapp": "apps/webapp",
+        "webapp-e2e": "apps/webapp-e2e"
+    }
 }
