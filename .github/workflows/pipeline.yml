@@ -1,0 +1,161 @@
+name: Deploy to Firebase Hosting on merge
+"on":
+  push:
+    branches-ignore:
+      - "test-*"
+    # branches:
+    #   - main
+env:
+  NODE_VERSION: "16"
+  NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.analytics }}
+  # TODO: get from package.json ??
+  # NEXT_PUBLIC_VERSION: ${{ secrets.analytics }}
+
+jobs:
+  avoid_rendundant_workflow_runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - name: Lint
+      - run: yarn lint
+      - name: SolLint
+      - run: yarn sollint
+
+  unit_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Unit test
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn unit
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: get-yarn-version
+        id: package-version
+        uses: martinbeentjes/yarn-get-version-action@main
+
+      - name: Build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+        env:
+          NEXT_PUBLIC_VERSION: ${{ steps.package-version.outputs.current-version}}
+          # NEXT_PUBLIC_VERSION: ${{ steps.get_version.outputs.version }}-${{ steps.vars.outputs.sha_short }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+  e2e_test:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+          
+      - name: Test
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn e2e
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [e2e_test, unit_test, build]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+          
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: dist
+
+      - name: Declare some variables
+        id: vars
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_EFFECTIVE_ADVENTURE }}"
+          channelId: ${{ steps.vars.outputs.branch }}
+          projectId: effective-adventure
+
+      # should i use npm version + branch + sha? https://github.com/martinbeentjes/npm-get-version-action/blob/main/entrypoint.sh
+      - name: Dump vars context
+        run: |
+          echo "Branch: ${{ steps.vars.outputs.branch }}"
+          echo "github.head_ref: ${{ github.head_ref }}"
+          echo "Sha: ${{ steps.vars.outputs.sha_short }}"
