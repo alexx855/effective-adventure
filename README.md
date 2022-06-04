@@ -1,5 +1,5 @@
 # Effective adenture
-a web3 nx nextjs hardhat monorepo template
+A web3 game experiment
 
 ## Automated deploy to pinata and update cloudflare dnslink
 Set github secrets with keys, get from providers
