@@ -1,10 +1,12 @@
 /* eslint-disable-next-line */
-export interface LayoutProps {}
+export interface LayoutProps {
+    children: React.ReactNode;
+}
 
-export const Layout: React.FC = ({ children }) => {
+export const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
     return (
         <>
-            {children}
+            {props?.children}
 
             <div className="absolute bottom-0 right-0 z-99 pb-2 pr-2">
                 <p id="release-info" className="text-right">

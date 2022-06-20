@@ -15,7 +15,9 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "@webapp": ["apps/webapp/"],
             "@whitehoneypot/pixi": ["libs/pixi/src/index.ts"],
+            "@whitehoneypot/state": ["libs/state/src/index.ts"],
             "@whitehoneypot/ui": ["libs/ui/src/index.ts"]
         }
     },
