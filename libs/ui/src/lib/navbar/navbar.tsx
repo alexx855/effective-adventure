@@ -2,7 +2,9 @@ import beeUrl from '../../bee/SVG/full.svg';
 import Image from 'next/image';
 
 /* eslint-disable-next-line */
-export interface NavbarProps {}
+export interface NavbarProps {
+    counter?: JSX.Element;
+}
 const items = ['a', 'b', 'c', 'a', 'b', 'c'];
 export function Navbar(props: NavbarProps) {
     // const entities = useSelector(selectAllCounterSlice);
@@ -42,6 +44,8 @@ export function Navbar(props: NavbarProps) {
                         />
 
                         <span className="ml-2">0x...820</span>
+
+                        {props.counter && props.counter}
                     </div>
 
                     {/* <p className="text-orange-500">
